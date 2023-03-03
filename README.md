@@ -22,4 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-# group3_fall2022
+# Animal Finder
+
+[Brochure SE.pdf](https://github.com/josuetorresf2/animalFinder/files/10878066/Brochure.SE.pdf)
