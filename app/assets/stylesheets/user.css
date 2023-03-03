@@ -1,0 +1,20 @@
+.usertable {
+    font-size: 15px;
+    text-align: center;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    align-items: center;
+    padding: auto;
+    border: 2px solid blue;
+}
+
+.usertable th{
+    padding: 10px;
+    align-text: center;
+
+}
+
+.usertable td{
+    border: 1px solid lightblue;
+}

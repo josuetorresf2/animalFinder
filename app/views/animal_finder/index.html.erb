@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Animal Finder</title>
+
+</head>
+
+<body>
+
+    <!-- Insert news that shows recent lost or found pets -->
+    <div class="news">**Recently Lost/Found Pets**</div>
+
+    <!-- Insert logo with website name -->
+    <h1><%= image_tag "animal_finder_logo.png", height:100%>Animal Finder</h1>
+
+    <!-- Lost and Found button -->
+    <div class = "center">
+
+        <button>
+            <%= image_tag 'red_pin.png', id: "lost" %>
+        </button>
+        <p class="lost">Add Lost Animal</p>
+    
+        <p class="found">Add Found Animal</p>
+        <button>
+            <%= image_tag 'green_pin.png', id: "found" %>
+        </button>
+    </div>
+
+    <!-- Insert spaces between elements -->
+    <br>
+    <br>
+
+    <!-- Insert Map -->
+    <div class ="map">
+
+        <style>
+        #map{
+            position: center;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 25px;
+            border: 3px solid green;
+            box-sizing: border-box;
+        }
+        </style>
+
+            <div id="map"></div>
+
+            <script>
+              mapboxgl.accessToken = 'pk.eyJ1Ijoiam9zdWV0b3JyZXNmMiIsImEiOiJjbDh3bDhvcXcwYWU2M29vYTIzeXV5c3hlIn0.KBJxuzXQCIIAU8Cg3RaRBA';
+              const map = new mapboxgl.Map({
+                  container: 'map',
+                  style: 'mapbox://styles/josuetorresf2/cl9atg6p0000914pdap8esalw',
+                  center: [-104.80061464318779, 38.892833823146056], 
+                  zoom: 10
+              });
+              const geocoder = new MapboxGeocoder({
+                mapboxgl: mapboxgl,                                                                               
+                accessToken: mapboxgl.accessToken,
+                marker: false
+              })
+                geocoder.on('result', e => {
+                  const marker = new mapboxgl.Marker({
+                    draggable: true,
+                    color:"pink"
+                  })
+                  .setLngLat(e.result.center)
+                  .addTo(map)
+                  marker.on('dragend', e => {
+                    // marker dragged
+                  })
+                })
+                map.addControl(geocoder)
+
+        </script>
+    </div>
+
+
+    <br>
+    <br>
+    <div class="information">Animal/Owner Information</div>
+
+    <!-- Add filter for map -->
+    <div class="filter">
+    <h3>Filter</h3>
+    
+    <!-- For Breed Selection for filter -->
+    <div class="breedDropdown">
+        <button onclick="breedBtn()" class="breedDropbtn">Animal Breed</button>
+        <div id="mybreedDropdown" class="breedDropdown-content">
+            <input type="text" placeholder="Breed.." id="mybreedInput" onkeyup="filterFunction()">
+            <a href="#poodle">Poodle</a>
+            <a href="#labrador">Labrador</a>
+            <a href="#goldenretriever">Golden Retriever</a>
+            <a href="#germanshepard">German Shepard</a>
+        </div>
+    </div> 
+
+    <!-- For Distance Selection for filter -->
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Distance</button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Distance up to 3 miles..." id="myInput" onkeyup="filterFunction()">
+            <a href="#1mile">1 Mile</a>
+            <a href="#2mile">2 Miles</a>
+            <a href="#3mile">3 Miles</a>
+        </div> 
+    </div>
+
+    <!-- List or Map views filter -->
+    <div class="checkbox">
+    <br>
+        <input id="item2" type="checkbox">
+        <label for="listview">List View</label>
+    </div>
+    <div class="checkbox">
+    <br>
+        <input id="item3" type="checkbox">
+        <label for="mapview">Map View</label>
+    </div>
+
+</body>
+
+
+</html>

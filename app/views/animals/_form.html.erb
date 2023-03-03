@@ -1,0 +1,186 @@
+<!-- New Animal Form -->
+<div data-controller="mapbox">
+<div id="mapbox"></div>
+
+<div id="geocoder" class="geocoder"></div>
+<h1 style="position:center;text-align:center;">Add New Lost or Found Animal</h1>
+
+<div class="formwrap">
+
+<body>
+
+<%= form_with(model: @animal, local: true) do |form| %>
+  <% if animal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(animal.errors.count, "error") %> prohibited this animal from being saved:</h2>
+
+      <ul>
+      <% animal.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= form.label :species %>
+    <%= form.text_field :species, placeholder:"Dog, Cat, Bird, Pig..." %>
+  </div>
+
+  <div class="field">
+    <%= form.label :breed %>
+    <%= form.text_field :breed, placeholder:"Poodle, Tabby, Parrot, Potbelly..." %>
+  </div>
+
+  <div class="field">
+    <%= form.label :size %>
+    <%= form.text_field :size, placeholder:"Large, Medium, Small..." %>
+  </div>
+
+  <div class="field">
+    <%= form.label :color %>
+    <%= form.text_field :color, placeholder:"Beige, Orange, Blue and Green, Pink..."%>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, placeholder:"Describe the animal and how you find it ..."%>
+  </div>
+  <div class="field">
+    <%= form.label :Picture %>
+    <%= form.file_field :image, placeholder:"Add Picture(s) of animal" %>
+</div>
+
+  <div class="field">
+    <%= form.label :longitude %>
+    <%= form.text_field :longitude, placeholder:"123.45678"%>
+  </div>
+
+  <div class="field">
+    <%= form.label :latitude %>
+    <%= form.text_field :latitude, placeholder:"10.1234567"%>
+  </div>
+
+   <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location, placeholder:"Dog Park 12345 Avenue"%>
+  </div>
+
+  <div class="field" id="lostbox">
+    <%= form.label :lost %>
+    <%= form.check_box :lost %>
+  </div>
+
+  <div class="field" id="foundbox">
+    <%= form.label :found %>
+    <%= form.check_box :found %>
+  </div>
+
+  <div class="field" id="userid">
+    <%= form.number_field :user_id, id: :animal_user_id, value:current_user.id, type: :hidden %>
+  </div>
+
+  <div class="field" id="username">
+    <%= form.text_field :user_name, id: :animal_user_name, value:current_user.name, type: :hidden %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+</div>
+
+
+
+<div class="mapwrap">
+    
+
+    <!-- Insert Map -->
+    <div class ="map" id="map">
+        
+        <style>
+        body { margin: 0; padding: 0; }
+        #map{
+           /* position: center;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 25px;
+            border: 3px solid green;
+            box-sizing: border-box;
+            display:inline-block; */
+        }
+        .map {
+    text-align: center;
+    border: 2px solid greenyellow;
+    margin: 0 auto;
+    height: 600px;
+    width: 600px;
+    position:relative;
+}
+        </style>
+
+        <body>
+
+            <div id="map"></div>
+
+            <script>
+            if (document.getElementById('animal_latitude').value.length ===0) {
+              var center = [-104.80061464318779, 38.892833823146056]
+            }
+            else {
+              var center = [document.getElementById('animal_longitude').value, document.getElementById('animal_latitude').value]
+            }
+
+              mapboxgl.accessToken = 'pk.eyJ1Ijoiam9zdWV0b3JyZXNmMiIsImEiOiJjbDh3bDhvcXcwYWU2M29vYTIzeXV5c3hlIn0.KBJxuzXQCIIAU8Cg3RaRBA';
+
+              const map = new mapboxgl.Map({
+                  container: 'map',
+                  style: 'mapbox://styles/josuetorresf2/cl9vtvhjd001n14o7jobbngdh',
+                  center: [-104.80061464318779, 38.892833823146056], 
+                  zoom: 10
+              });
+              const geocoder = new MapboxGeocoder({
+                mapboxgl: mapboxgl,                                                                               
+                accessToken: mapboxgl.accessToken,
+                marker: false
+              })
+
+
+                geocoder.on('result', e => {
+                  const marker = new mapboxgl.Marker({
+                    draggable: true,
+                    color:"pink"
+                  })
+                  .setLngLat(e.result.center)
+                  .addTo(map)
+
+                  marker.on('dragend', e => {
+                    // marker dragged
+                    const lngLat = marker.getLngLat();
+
+                    document.getElementById('animal_longitude').value = lngLat.lng
+                    document.getElementById('animal_latitude').value = lngLat.lat
+                  })
+                  document.getElementById('animal_location').value = e.result.place_name
+                  document.getElementById('animal_longitude').value = e.result.center[0]
+                  document.getElementById('animal_latitude').value = e.result.center[1]
+
+
+                })
+                map.addControl(geocoder)
+
+                marker.on('dragend', onDragEnd);
+              
+
+        </script>
+    </div>
+</div>
+</div> <!-- datacontroller mapbox -->
+
+<% end %>

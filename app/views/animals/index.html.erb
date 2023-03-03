@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Animal Finder</title>
+
+<table class="filtertable">
+  <caption>Animal Finder Filter!<hr style="border-bottom:1px solid blue;"></hr><caption>
+
+<thead>
+
+    <tr>
+      <th>Species:</th>
+      <th>Sizes:</th>
+    </tr>
+  </thead>
+    <tbody>
+
+    <tr>
+        <div class="species">
+        <td>
+          <%= form_tag animals_path, :method => :get, :id => "species_form" do %>
+        <% @all_species.each do |species| %>
+          <%= species %>
+          <% if session[:filtered_species].nil? or session[:filtered_species].include? species %>
+          <div class="checkbox">
+            <%= check_box_tag "species[#{species}]", 1, true %>
+            </div>
+          <% else %>
+          <div class="checkbox">
+            <%= check_box_tag "species[#{species}]", 1, false %>
+            </div>
+          <% end %>
+        <% end %>
+        <%= submit_tag 'Refresh', :id => "species_submit" %>
+      <% end %>
+      </td>
+    </div>
+
+      <div class="sizes">
+    <td>
+        <%= form_tag animals_path, :method => :get, :id => "sizes_form" do %>
+        <% @all_sizes.each do |size| %>
+        <%= size %>
+        <% if session[:filtered_sizes].nil? or session[:filtered_sizes].include? size %>
+          <div class="checkbox">
+            <%= check_box_tag "sizes[#{size}]", 1, true %>
+          </div>
+        <% else %>
+          <div class="checkbox">
+            <%= check_box_tag "sizes[#{size}]", 1, false %>
+          </div>
+          <% end %>
+        <% end %>
+        <%= submit_tag 'Refresh', :id => "sizes_submit" %>
+      <% end %>
+    </td>
+    </div>
+    </tr>
+</div>
+</tbody>
+</table>
+</head>
+
+
+
+<!-- Filter for Lost Animals
+<div class="lostcheck">
+  <%= form_tag animals_path, :method => :get, :id => "lost_form" do %>
+  <% @all_lost.each do |lost| %>
+  <%= lost %>
+  <% if session[:filtered_lost].nil? or session[:filtered_lost].include? lost %>
+    <div class="checkbox">
+      <%= check_box_tag "lost[#{lost}]", 1, true %>
+    </div>
+  <% else %>
+    <div class="checkbox">
+      <%= check_box_tag "lost[#{lost}]", 1, false %>
+    </div>
+    <% end %>
+  <% end %>
+  <%= submit_tag 'Refresh', :id => "lost_submit" %>
+<% end %>
+</div>
+-->
+
+<!-- Filter for Found Animals 
+<div class="foundcheck">
+  <%= form_tag animals_path, :method => :get, :id => "found_form" do %>
+  <% @all_found.each do |found| %>
+  <%= found %>
+  <% if session[:filtered_found].nil? or session[:filtered_found].include? found %>
+    <div class="checkbox">
+      <%= check_box_tag "found[#{found}]", 1, true %>
+    </div>
+  <% else %>
+    <div class="checkbox">
+      <%= check_box_tag "found[#{found}]", 1, false %>
+    </div>
+    <% end %>
+  <% end %>
+  <%= submit_tag 'Refresh', :id => "found_submit" %>
+<% end %>
+</div>
+-->
+
+
+
+
+<!-- Insert Map -->
+
+        <style>
+        
+        /* #map{
+           position: center;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 25px;
+            border: 3px solid green;
+            box-sizing: border-box;
+            display:inline-block;
+        } */
+ 
+       .parent {
+          display: flex;
+          position: absolute;
+          top: 20%;
+          border: 5px solid;
+          display: block;
+          height: auto;
+          overflow: auto;
+}
+
+        .sidebar {
+        height: auto;
+        border-right: 1px solid rgba(0, 0, 0, 0.25);
+        float:left;
+      }
+      .animaltable {
+      margin-top:20px;
+      float:right;
+      margin-left:20px;
+      width:auto;
+      }
+      .animaltable td{
+        height:200px;
+      }
+
+      .map {
+        position: absolute;
+        width: 30%;
+        height: 50%;
+        left: 0;
+        top: 150px;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      
+      }
+
+      h1 {
+        font-size: 22px;
+        margin: 0;
+        font-weight: 400;
+        line-height: 20px;
+        padding: 20px 2px;
+      }
+
+      a {
+        color: #404040;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #101010;
+      }
+
+      .heading {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        min-height: 60px;
+        line-height: 60px;
+        padding: 0 10px;
+        background-color: #00853e;
+        color: #fff;
+      }
+
+      .listings {
+        height: 100px;
+        width: 300px;
+        padding-bottom: 60px;
+        display:inline-block;
+
+      }
+
+      .listings .item {
+        display: block;
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+        text-decoration: none;
+        height:200px;
+        border:1px solid;
+
+      }
+
+      .listings .item:last-child {
+        border-bottom: none;
+      }
+      .listings .item .title {
+        display: block;
+        color: #00853e;
+        font-weight: 700;
+      }
+
+      .listings .item .title small {
+        font-weight: 400;
+      }
+      .listings .item.active .title,
+      .listings .item .title:hover {
+        color: #8cc63f;
+      }
+      .listings .item.active {
+        background-color: #f8f8f8;
+      }
+
+
+      ::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        border-left: 0;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      ::-webkit-scrollbar-track {
+        background: none;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #00853e;
+        border-radius: 0;
+      }
+
+      .marker {
+        border: none;
+        cursor: pointer;
+        height: 56px;
+        width: 56px;
+        background-image: url(https://cdn-icons-png.flaticon.com/512/1183/1183403.png);
+      }
+
+      /* Marker tweaks */
+      .mapboxgl-popup {
+        padding-bottom: 50px;
+      }
+
+      .mapboxgl-popup-close-button {
+        display: none;
+      }
+      .mapboxgl-popup-content {
+        font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+        padding: 0;
+        width: 180px;
+      }
+      .mapboxgl-popup-content h3 {
+        background: #91c949;
+        color: #fff;
+        margin: 0;
+        padding: 10px;
+        border-radius: 3px 3px 0 0;
+        font-weight: 700;
+        margin-top: -15px;
+      }
+
+      .mapboxgl-popup-content h4 {
+        margin: 0;
+        padding: 10px;
+        font-weight: 400;
+      }
+
+      .mapboxgl-popup-content div {
+        padding: 10px;
+      }
+
+      .mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+        margin-top: 15px;
+      }
+
+      .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+        border-bottom-color: #91c949;
+      }
+
+
+        </style>
+        <div id="map" class="map"></div>
+
+        <div class="parent">
+            <div class="sidebar">
+                <div class="heading">
+                    <h1>Our locations</h1>
+                </div>
+                <div id="listings" class="listings"></div>
+            </div>
+            <div class="animaltable"><div>
+        </div>
+        
+
+<table class="animaltable">
+  <thead>
+    <tr>
+      <th>Picture</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @animals.each do |animal| %>
+      <tr>
+        <td>
+        <% if animal.image.attached? %>
+            <%= image_tag(animal.image, style:"width:100px; height:150px") %>
+        <% end %>
+        </td>
+        <td><%= link_to 'Show', animal %></td>
+        <td><%= link_to 'Edit', edit_animal_path(animal) %></td>
+        <td><%= button_to 'Destroy', animal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+            <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoiam9zdWV0b3JyZXNmMiIsImEiOiJjbDh3bDhvcXcwYWU2M29vYTIzeXV5c3hlIn0.KBJxuzXQCIIAU8Cg3RaRBA';
+
+        /**
+         * Add the map to the page
+         */
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/josuetorresf2/cl9vtvhjd001n14o7jobbngdh',
+            center: [-104.80061464318779, 38.892833823146056],
+            zoom: 10,
+        });
+
+
+        animallist = {
+        'type': 'FeatureCollection',
+        'features': [
+          <% @animals.each do |animal| %>
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [<%= animal.longitude %> , <%= animal.latitude %>]
+            },
+            'properties': {
+              'species': '<%= animal.species %>',
+              'breed': '<%= animal.breed %>',
+              'color': '<%= animal.color %>',
+              'size': '<%= animal.size %>',
+              'lost': '<%= animal.lost %>',
+              'found': '<%= animal.found %>',
+              'location': '<%= animal.location %>',
+              'image': '<%= animal.image %>',
+              'show': '<%= link_to 'Show', animal %>',
+              'username': '<%= animal.user_name %>'             }
+          },
+          <% end %>
+
+        ]
+        
+        };
+
+
+
+         /**
+       * Assign a unique id to each animal. You'll use this `id`
+       * later to associate each point on the map with a listing
+       * in the sidebar.
+       */
+      animallist.features.forEach((animal, i) => {
+        animal.properties.id = i;
+      });
+
+      /**
+       * Wait until the map loads to make changes to the map.
+       */
+      map.on('load', () => {
+        /* Add the data to your map as a layer */
+        map.addSource('places', {
+
+    /* Add a GeoJSON source containing place coordinates and information. */
+
+      type: 'geojson',
+      data: animallist
+    
+  });
+
+        /**
+         * Add all the things to the page:
+         * - The location listings on the side of the page
+         * - The markers onto the map
+         */
+        buildAnimalList(animallist);
+        addMarkers();
+      });
+
+      /**
+       * Add a marker to the map for every store listing.
+       **/
+      function addMarkers() {
+        /* For each feature in the GeoJSON object above: */
+        console.log('markers');
+        for (const marker of animallist.features) {
+          /* Create a div element for the marker. */
+          const el = document.createElement('div');
+          /* Assign a unique `id` to the marker. */
+          el.id = `marker-${marker.properties.id}`;
+
+          el.className = 'marker';
+
+          /**
+           * Create a marker using the div element
+           * defined above and add it to the map.
+           **/
+          new mapboxgl.Marker(el, { offset: [0, -23] })
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+
+          /**
+           * Listen to the element and when it is clicked, do three things:
+           * 1. Fly to the point
+           * 2. Close all other popups and display popup for clicked store
+           * 3. Highlight listing in sidebar (and remove highlight for all other listings)
+           **/
+          el.addEventListener('click', (e) => {
+            /* Fly to the point */
+            flyToAnimal(marker);
+            /* Close all other popups and display popup for clicked store */
+            createPopUp(marker);
+            /* Highlight listing in sidebar */
+            const activeItem = document.getElementsByClassName('active');
+            e.stopPropagation();
+            if (activeItem[0]) {
+              activeItem[0].classList.remove('active');
+            }
+            const listing = document.getElementById(
+              `listing-${marker.properties.id}`
+            );
+            listing.classList.add('active');
+          });
+         
+          }
+     
+
+          /* Assign the `marker` class to each marker for styling. */
+          
+        }
+
+      /**
+       * Add a listing for each store to the sidebar.
+       **/
+      function buildAnimalList(animallist) {
+        for (const animal of animallist.features) {
+          /* Add a new listing section to the sidebar. */
+          const listings = document.getElementById('listings');
+          const listing = listings.appendChild(document.createElement('div'));
+          /* Assign a unique `id` to the listing. */
+          listing.id = `listing-${animal.properties.id}`;
+          /* Assign the `item` class to each listing for styling. */
+          listing.className = 'item';
+
+          /* Add the link to the individual listing created above. */
+          const link = listing.appendChild(document.createElement('a'));
+          link.href = '#';
+          link.className = 'title';
+          link.id = `link-${animal.properties.id}`;
+          link.innerHTML = `<h3>${animal.properties.species} - Breed: ${animal.properties.breed}</h3>`;
+
+          /* Add details to the individual listing. */
+          const details = listing.appendChild(document.createElement('div'));
+          
+              if(animal.properties.lost == "true") {
+              details.innerHTML = `<span style='color:red'>Lost </br></span> Color: ${animal.properties.color} </br> Size: ${animal.properties.size} </br> Posted by:${animal.properties.username} </br> ${animal.properties.show} <hr>`;
+              } else {
+              details.innerHTML = `<span style='color:green'>Found </br></span> Color: ${animal.properties.color} </br> Size: ${animal.properties.size} </br> Posted by:${animal.properties.username} </br> ${animal.properties.show} <hr>`;
+              }
+       
+          
+
+          /**
+           * Listen to the element and when it is clicked, do four things:
+           * 1. Update the `currentFeature` to the store associated with the clicked link
+           * 2. Fly to the point
+           * 3. Close all other popups and display popup for clicked store
+           * 4. Highlight listing in sidebar (and remove highlight for all other listings)
+           **/
+          link.addEventListener('click', function () {
+            for (const feature of animallist.features) {
+              if (this.id === `link-${feature.properties.id}`) {
+                flyToAnimal(feature);
+                createPopUp(feature);
+              }
+            }
+            const activeItem = document.getElementsByClassName('active');
+            if (activeItem[0]) {
+              activeItem[0].classList.remove('active');
+            }
+            this.parentNode.classList.add('active');
+          });
+        }
+      }
+
+      /**
+       * Use Mapbox GL JS's `flyTo` to move the camera smoothly
+       * a given center point.
+       **/
+      function flyToAnimal(currentFeature) {
+        map.flyTo({
+          center: currentFeature.geometry.coordinates,
+          zoom: 15
+        });
+      }
+
+      /**
+       * Create a Mapbox GL JS `Popup`.
+       **/
+      function createPopUp(currentFeature) {
+        const popUps = document.getElementsByClassName('mapboxgl-popup');
+        if (popUps[0]) popUps[0].remove();
+        const popup = new mapboxgl.Popup({ closeOnClick: true })
+          .setLngLat(currentFeature.geometry.coordinates)
+          .setHTML(
+            `<h3>${currentFeature.properties.breed} ${currentFeature.properties.species}</h3>
+            <h4>Size: ${currentFeature.properties.size}</h4>
+            <h4>Color: ${currentFeature.properties.color}</h4>
+            <h6>Location: ${currentFeature.properties.location}</h6>
+            <h6>lost: ${currentFeature.properties.lost}</h6>
+            <h6>found: ${currentFeature.properties.found}</h6>
+            <h6>${currentFeature.properties.show}</h6>
+            <h6>Edit: ${currentFeature.properties.edit}</h6>`
+          )
+          .addTo(map);
+      }
+
+
+
+            //   mapboxgl.accessToken = 'pk.eyJ1Ijoiam9zdWV0b3JyZXNmMiIsImEiOiJjbDh3bDhvcXcwYWU2M29vYTIzeXV5c3hlIn0.KBJxuzXQCIIAU8Cg3RaRBA';
+            //   const coordinates = document.getElementById('coordinates');
+
+            //   const map = new mapboxgl.Map({
+            //       container: 'map',
+            //       style: 'mapbox://styles/josuetorresf2/cl9vtvhjd001n14o7jobbngdh',
+            //       center: [-104.80061464318779, 38.892833823146056], 
+            //       zoom: 10
+            //   });
+
+            //     //     marker = new mapboxgl.Marker({
+            //     //     color:"pink"
+            //     //   })
+            //     //   .setLngLat([-104.80061464318779,38.892833823146056])
+            //     //   .addTo(map)
+            //     //   marker = new mapboxgl.Marker({
+            //     //     color:"pink"
+            //     //   })
+            //     //   .setLngLat([-105,39])
+            //     //   .addTo(map)
+            //     //   marker = new mapboxgl.Marker({
+            //     //     color:"pink"
+            //     //   })
+            //     //   .setLngLat([-106,40])
+            //     //   .addTo(map)
+
+            //     <% @animals.each do |animal| %>
+            //     marker = new mapboxgl.Marker({
+            //         color:"pink"
+            //     })
+            //       .setLngLat([<%= animal.longitude %> , <%= animal.latitude %>])
+            //       //.setLngLat([-104.80061464318779,38.892833823146056])
+            //       .addTo(map);
+            //         console.log(`PLS HALP <%= animal.longitude %> , <%=animal.latitude%>`);
+
+            //     <% end %>
+                
+                  
+        </script>
+
+<%# <!-- Add Animal Info box -->
+    <div class="information">
+
+    <!-- Add Animal Info box -->
+    <div class="information">
+    
+    Animal/Owner Information
+    </div>
+
+    <!-- Add filter for map -->
+    <div class="filter">
+    <h3>Filter</h3>
+    
+    <!-- For Breed Selection for filter -->
+    <div class="breedDropdown">
+        <button onclick="breedBtn()" class="breedDropbtn">Animal Breed</button>
+        <div id="mybreedDropdown" class="breedDropdown-content">
+            <input type="text" placeholder="Breed.." id="mybreedInput" onkeyup="filterFunction()">
+            <a href="#poodle">Poodle</a>
+            <a href="#labrador">Labrador</a>
+            <a href="#goldenretriever">Golden Retriever</a>
+            <a href="#germanshepard">German Shepard</a>
+        </div>
+    </div> 
+
+    <!-- For Distance Selection for filter -->
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Distance</button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Distance up to 3 miles..." id="myInput" onkeyup="filterFunction()">
+            <a href="#1mile">1 Mile</a>
+            <a href="#2mile">2 Miles</a>
+            <a href="#3mile">3 Miles</a>
+        </div> 
+    </div>
+
+    <!-- List or Map views filter -->
+    <div class="checkbox">
+    <br>
+        <input id="item2" type="checkbox">
+        <label for="listview">List View</label>
+    </div>
+    <div class="checkbox">
+    <br>
+        <input id="item3" type="checkbox">
+        <label for="mapview">Map View</label>
+    </div>  %>
+
+</body>
+
+
+</html>

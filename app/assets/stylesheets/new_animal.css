@@ -1,0 +1,93 @@
+/*New Animal form styles*/
+input[type=text], select {
+    padding: 5px;
+    margin-top: 0px;
+    display: block;
+    border: 3px solid lightblue;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5),
+    inset 5px 5px 8px rgba(0,0,0,0.5);
+  }
+
+label {
+    font-size: large;
+}
+
+.formwrap {
+    width: 50%;
+    float: left;
+    padding-left: 20%;
+    position:static;
+}
+
+.formcreatedwrap {
+    padding: 5px;
+    margin-top: 0px;
+    display: block;
+    border: 3px solid lightblue;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5),
+    inset 5px 5px 8px rgba(0,0,0,0.5);
+    width: 30%;
+    float:left;
+    position: static;
+}
+
+.formcreatedwrap strong{
+    font-size: large;
+}
+
+.formcreatedwrap p {
+    font-size: large;
+    padding: 5px;
+}
+
+.mapwrap {
+    width: 50%;
+    float: right;
+    position:static;
+}
+
+
+.wrapper {
+    display: inline-block;
+    
+    justify-content: space-around;
+  }
+
+#lostbox {
+    color: red;
+    display: inline-block;
+
+
+}
+
+#foundbox {
+    color: green;
+    display: inline-block;
+    padding-left: 80px;
+}
+
+.animalstyle {
+    text-align: center;
+    background-color: lightblue;
+    margin-left: 20vw;
+    width: 100px;
+    font-size: large;
+}
+
+.animalstyle:hover {
+    background-color: lightskyblue;
+}
+
+.actions {
+    width: 100px;
+    color: cyan;
+}
+
+
+  

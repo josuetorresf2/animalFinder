@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @finder.name %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @finder.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @finder.longitude %>
+</p>
+
+<%= link_to 'Edit', edit_finder_path(@finder) %> |
+<%= link_to 'Back', finders_path %>

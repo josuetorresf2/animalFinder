@@ -1,0 +1,489 @@
+/* For Recent Found or Lost Pets */
+.news {
+    position: -webkit-sticky;
+    position: sticky;
+    text-align: center;
+    top: 0;
+    padding: 5px;
+    background-color: blanchedalmond;
+    border: 2px solid #b3bd26;
+}
+
+h1 {
+    font-size: 500px;
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+}
+
+
+.logo {
+    position: center;
+}
+
+/*Lost and Found Pins and Arrows Styling*/
+#lostpin {
+    height: 50px;
+    width: 50px;
+    background-color: red;
+}
+
+a:hover #lostpin {
+    opacity: 1;
+    background-color: darkred;
+}
+
+#foundpin {
+    height: 50px;
+    width: 50px;
+    background-color: green;
+}
+
+a:hover #foundpin {
+    opacity: 1;
+    background-color: darkgreen;
+}
+
+
+
+p.lost {
+    height: 40px;
+    width: 140px;
+    background-color: red;
+    border: 2px solid darkred;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    line-height: 40px;
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+}
+
+p.lost:after {
+    color: red;
+    border-right: 20px solid;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    display: inline-block;
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0
+}
+
+p.found {
+    height: 40px;
+    width: 140px;
+    background-color: green;
+    border: 2px solid darkgreen;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    line-height: 40px;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+p.found:after {
+    color: green;
+    border-left: 20px solid;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    display: inline-block;
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 0
+}
+
+
+.addanimalbuttons {
+    position: center;
+    align-items: center;
+    top: 20%;
+}
+
+.lostcheck .checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+
+.foundcheck .checkbox {
+    position: relative;
+    display: inline-block;
+}
+
+
+.species {
+    position: absolute;
+    padding: 5px;
+}
+
+.sizes {
+    position: absolute;
+    padding: 5px;
+
+}
+
+.selection {
+    position: absolute;
+    right: 500px;
+    top: 900px;
+    height: auto;
+    width: auto;
+}
+
+.checkbox {
+    position: relative;
+    margin: 10px;
+    font-size: large;
+}
+
+/* The checkbox */
+.checkbox>input {
+    /*
+      Remove the default appearance.
+    */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+
+
+    /*
+      Set the size of the checkbox.
+    */
+    width: 15px;
+    height: 15px;
+
+    box-shadow: 0 0 0 2px black;
+    /* Outer border */
+    border: 3px solid white;
+    /* Inner border */
+}
+
+/* The checkbox - when checked */
+.checkbox>input:checked {
+    background-color: purple;
+    /* The "check" */
+    size: 5px;
+}
+
+/*Navbar Styling */
+
+.container-fluid {
+    background-color: lightskyblue;
+    border: 2px solid blue;
+    /* Inner border */
+
+}
+
+nav li {
+    height: 100%;
+}
+
+.navbar-brand {
+    position: center;
+
+}
+
+.navbar-brand img {
+    height: 70px;
+    margin-top: -20px;
+
+}
+
+.navbar .container-fluid {
+    flex-direction: row;
+
+}
+
+.nav a {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
+.nav-item {}
+
+.nav {
+    border: 5px solid green;
+    background-color: lightskyblue;
+    white-space: nowrap;
+
+}
+
+.navbar-nav {
+    font-weight: bold;
+    font-size: larger;
+    position: top;
+}
+
+.nav ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    position: -webkit-sticky;
+    position: sticky;
+    height: 100%;
+}
+
+
+
+li a:hover:not(.active) {}
+
+nav .active {
+    background-color: cyan;
+}
+
+nav .active:hover {
+    background-color: deepskyblue;
+}
+
+/* .mainmap {
+    position: center;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 25px;
+    border: 3px solid green;
+    box-sizing: border-box;
+    display: inline-block;
+} */
+
+
+.account {
+    background-color: blue;
+    display: inline-block;
+    height: 100%;
+    border-color: rgb(255, 102, 203);
+    font-size: 25px;
+}
+
+#account_menu {
+    display: inline-block;
+    border-left: 1px solid #c4c4c4;
+    border-right: 1px solid #c4c4c4;
+}
+
+.account button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    color: white;
+    display: inline-block;
+    float: none;
+    background-color: deepskyblue;
+    border: 2px solid blue;
+
+}
+
+.account button {
+    border: 2px solid cyan;
+    color: white;
+    height: 50px;
+}
+
+.dropdown li {
+    border-bottom: 1px solid;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.first {
+    font-style: bold;
+    color: blue;
+}
+
+.second {
+    color: orange;
+}
+
+.third {
+    color: red;
+}
+
+
+
+
+
+/*Comment Box style*/
+.information {
+    border: 2px solid blue;
+    border-radius: 5px;
+    margin: 0 auto;
+    height: 200px;
+    width: 600px;
+}
+
+/* Map style */
+/* .map {
+    text-align: center;
+    border: 2px solid greenyellow;
+    margin: 0 auto;
+    height: 600px;
+    width: 600px;
+} */
+
+.marker {
+    background-image: url('green_pin.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+/* Animals listed style */
+.animallist {
+    position: absolute;
+    left: .5vw;
+    top: 35vh;
+    text-align: center;
+    border: 2px solid deeppink;
+    border-radius: 5px;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    align-items: center;
+    padding: auto;
+}
+
+.animallist th {
+    padding: 10px;
+    border-bottom: 2px solid palevioletred;
+    border-top: 2px solid palevioletred;
+    background-color: lightpink;
+}
+
+.animallist tr,
+.animallist td {
+    border-bottom: 2px solid palevioletred;
+    border: 2px solid palevioletred
+}
+
+.animallist tr:nth-child(even) {
+    background-color: lightcyan;
+}
+
+.animallist tr:nth-child(odd) {
+    background-color: lightblue;
+}
+
+
+
+/*Login page styling*/
+.login-form {
+    background: #fff;
+    width: 500px;
+    margin: 65px auto;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    border-radius: 4px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-form .content {
+    padding: 35px;
+    text-align: center;
+}
+
+.login-form .input-field {
+    padding: 12px 5px;
+}
+
+.login-form .input-field input {
+    font-size: 16px;
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+    padding: 10px 1px;
+    border: 0;
+    border-bottom: 1px solid #747474;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.login-form .input-field input::-webkit-input-placeholder {
+    text-transform: uppercase;
+}
+
+.login-form .input-field input::-moz-placeholder {
+    text-transform: uppercase;
+}
+
+.login-form .input-field input:-ms-input-placeholder {
+    text-transform: uppercase;
+}
+
+.login-form .input-field input::-ms-input-placeholder {
+    text-transform: uppercase;
+}
+
+.login-form .input-field input::placeholder {
+    text-transform: uppercase;
+}
+
+.login-form .input-field input:focus {
+    border-color: #222;
+}
+
+.login-form a.link {
+    text-decoration: none;
+    color: #747474;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.login-form .action {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+}
+
+.login-form .action button {
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #e8e9ec;
+    color: #777;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    letter-spacing: 0.2px;
+    outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.login-form .action button:hover {
+    background: #d8d8d8;
+}
+
+.login-form .action button:nth-child(2) {
+    background: #2d3b55;
+    color: #fff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 4px;
+}
+
+.login-form .action button:nth-child(2):hover {
+    background: #3c4d6d;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello <%= @user.name %> </title>
+        
+    </head>
+
+    <body>
+    <h1>Welcome <%= @user.name %> to Animal Finder!<h1>
+
+
+<div class="usertable">
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= @user.name %></td>
+            <td><%= @user.email %></td>
+            <td><%= @user.id %></td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="usertable">
+  <thead>
+    <tr>
+      <th>Animal Name</th>
+      <th>Animal Breed</th> 
+      <th>Animal Size</th>  
+      <th>Animal Color</th>  
+      <th>Animal Lost</th>  
+      <th>Animal Found</th>  
+ 
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @animals.each do |animal| %>
+      <tr>
+        <td><%= animal.species %></td>
+        <td><%= animal.breed %></td>
+        <td><%= animal.size %></td>
+        <td><%= animal.color %></td>
+
+        <td><%= link_to 'Show', animal %></td>
+        <td><%= link_to 'Edit', edit_animal_path(animal) %></td>
+        <td><%= button_to 'Destroy', animal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+    </body>
+</html>

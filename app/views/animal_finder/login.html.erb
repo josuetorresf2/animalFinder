@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel ="stylesheet" href="style.css">
+    <title>Animal Finder Login Page</title>
+</head>
+    
+<body>
+    <!-- Navagation Bar on top of the page -->
+    <ul>
+        <li><a href="animal_finders">Home</a></li>
+        <li><a href="#aboutus">About US</a></li>
+        <li><a href="#suggesstion">Suggestion</a></li>
+        <li style="float:right"><a class="active" href="animal_finders_login">Login</a></li>
+        
+    </ul>
+
+        <!-- Insert news that shows recent lost or found pets -->
+        <div class="news">**Recently Lost/Found Pets**</div>
+
+        <!-- Insert logo with website name -->
+        <h1><%= image_tag "animal_finder_logo.png", height:100%>Animal Finder</h1>
+
+        <div class="login-form">
+            <form>
+                <div class="content">
+                    <div class="input-field">
+                        <input type="email" placeholder="Email" autocomplete="nope">
+                    </div>
+                    <div class="input-field">
+                        <input type="password" placeholder="Password" autocomplete="new-password">
+                    </div>
+                        <a href="#" class="link">Forgot Your Password?</a>
+                    </div>
+                    <div class="action">
+                        <button>Register</button>
+                        <button>Sign in</button>
+                </div>
+            </form>
+        </div>
+</body>
